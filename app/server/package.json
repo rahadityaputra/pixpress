@@ -1,0 +1,27 @@
+{
+  "name": "wkwk-compress-server",
+  "version": "1.0.0",
+  "description": "Server for image compressor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node -T src/server.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "archiver": "^7.0.1",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "multer": "^1.4.5-lts.2",
+    "sharp": "^0.33.5",
+    "unzipper": "^0.12.3"
+  },
+  "devDependencies": {
+    "@types/archiver": "^6.0.3",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/multer": "^2.0.0",
+    "@types/sharp": "^0.31.1"
+  }
+}
