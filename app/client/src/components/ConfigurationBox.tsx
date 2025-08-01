@@ -161,7 +161,7 @@ const ConfigurationBox = ({ handleConfiguration }: GlobalConfigurationProps) => 
             htmlFor="globalQuality"
             className="block text-sm font-semibold text-gray-700 mb-2"
           >
-            Kualitas: <span className="font-normal">{quality}%</span>
+            Quality: <span className="font-normal">{quality}%</span>
           </label>
           <Slider
             value={[quality]}
@@ -173,31 +173,6 @@ const ConfigurationBox = ({ handleConfiguration }: GlobalConfigurationProps) => 
         </div>
         )}
 
-        <Flex
-          align="center"
-          gap="2"
-          className="col-span-full mt-2 cursor-pointer"
-        >
-          <Checkbox
-            id="globalLossless"
-            checked={lossless}
-            // onCheckedChange={null}
-            disabled={format === "jpeg"}
-          />
-          <label htmlFor="globalLossless">
-            <Text size="2" weight="medium" className="text-gray-700">
-              Gunakan kompresi lossless
-              {format === "png" && (
-                <span className="ml-1 text-blue-600">(Otomatis untuk PNG)</span>
-              )}
-              {format === "jpeg" && (
-                <span className="ml-1 text-red-500">
-                  (Tidak tersedia untuk JPEG)
-                </span>
-              )}
-            </Text>
-          </label>
-        </Flex>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import ImageElement from "./Image.jsx";
-import { Button, Flex } from "@radix-ui/themes";
+import { Button, Flex, Spinner } from "@radix-ui/themes";
 import ImageFile from "../types/ImageFile.js";
 import { ChangeEventHandler, DragEventHandler, useEffect } from "react";
 import useUpload from "../hooks/useUpload.js";
@@ -15,6 +15,11 @@ const ImageUploadBox = ({ handleImageFilesUpload, onCompressImage }: ImageUpload
   useEffect(() => {
     handleImageFilesUpload(imageFiles);
   }, [imageFiles])
+
+
+  useEffect(() => {
+    console.log(error);
+  }, [error])
 
   const handleDragOver: DragEventHandler = (event) => {
     event.preventDefault();
@@ -58,24 +63,29 @@ const ImageUploadBox = ({ handleImageFilesUpload, onCompressImage }: ImageUpload
     >
       <Flex id="files-upload" gap="2">
         <Button variant="solid">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M14.8543 11.9741L16.2686 10.5599L12.0259 6.31724L7.78327 10.5599L9.19749 11.9741L11.0259 10.1457V17.6828H13.0259V10.1457L14.8543 11.9741Z"
-              fill="currentColor"
-            />
-            <path
-              fillRule="evenodd"
-              clipRule="evenodd"
-              d="M1 19C1 21.2091 2.79086 23 5 23H19C21.2091 23 23 21.2091 23 19V5C23 2.79086 21.2091 1 19 1H5C2.79086 1 1 2.79086 1 5V19ZM5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21Z"
-              fill="currentColor"
-            />
-          </svg>
+          {loading ? (
+            <Spinner size="2" />
+          ) : (
+
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M14.8543 11.9741L16.2686 10.5599L12.0259 6.31724L7.78327 10.5599L9.19749 11.9741L11.0259 10.1457V17.6828H13.0259V10.1457L14.8543 11.9741Z"
+                fill="currentColor"
+              />
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M1 19C1 21.2091 2.79086 23 5 23H19C21.2091 23 23 21.2091 23 19V5C23 2.79086 21.2091 1 19 1H5C2.79086 1 1 2.79086 1 5V19ZM5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21Z"
+                fill="currentColor"
+              />
+            </svg>
+          )}
           Upload Images
           <input
             type="file"
@@ -104,7 +114,7 @@ const ImageUploadBox = ({ handleImageFilesUpload, onCompressImage }: ImageUpload
               fill="currentColor"
             />
           </svg>
-          Hapus Semua Berkas
+          Remove all images
         </Button>
 
       </Flex>
@@ -121,7 +131,7 @@ const ImageUploadBox = ({ handleImageFilesUpload, onCompressImage }: ImageUpload
             className="rounded-2xl border-2 border-blue-400 border-dashed h-full w-full flex justify-center items-center"
           >
             <span className="text-blue-600 opacity-25">
-              Drop Gambar Disini !
+              Drop images here !
             </span>
           </div>
         )}
@@ -162,7 +172,7 @@ const ImageUploadBox = ({ handleImageFilesUpload, onCompressImage }: ImageUpload
             fill="currentColor"
           />
         </svg>
-        Kompress
+        Compress
       </Button>
 
     </Flex >
