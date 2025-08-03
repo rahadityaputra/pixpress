@@ -54,6 +54,10 @@ const useUpload = () => {
     }
   }
 
+  const clearError = () => {
+    setError(null)
+  }
+
   const removeAllImageFiles = () => {
     setImagesFiles([]);
     resetId();
@@ -66,7 +70,7 @@ const useUpload = () => {
     setImagesFiles(imageFilesAfterEdit)
   }
 
-  return { uploadImageFiles, removeAllImageFiles, removeImageFiles, imageFiles, loading, error };
+  return { uploadImageFiles, removeAllImageFiles, removeImageFiles, imageFiles, loading, error, clearError };
 }
 
 export default useUpload;

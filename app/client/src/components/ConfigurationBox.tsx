@@ -1,10 +1,8 @@
 import { useEffect } from "react";
 import {
-  Checkbox,
   Select,
   Slider,
   Flex,
-  Text,
 } from "@radix-ui/themes";
 import useCompressionConfig from "../hooks/useCompressionConfig";
 
@@ -17,7 +15,6 @@ const ConfigurationBox = ({ handleConfiguration }: GlobalConfigurationProps) => 
     mode, setMode,
     format, setFormat,
     quality, setQuality,
-    lossless,
     width, setWidth,
     height, setHeight,
     size, setSize,
@@ -53,18 +50,20 @@ const ConfigurationBox = ({ handleConfiguration }: GlobalConfigurationProps) => 
           <Select.Root value={mode}
             onValueChange={(value: "resize" | "targetFileSize") => setMode(value)}
           >
-            <Select.Trigger />
+            <Select.Trigger id="compressionMode" />
             <Select.Content>
-              <Select.Item value="resize">Resize</Select.Item>
-              <Select.Item value="targetFileSize">
-                Target File Size (KB)
-              </Select.Item>
+              <Select.Group>
+                <Select.Item value="resize">Resize</Select.Item>
+                <Select.Item value="targetFileSize">
+                  Target File Size (KB)
+                </Select.Item>
+              </Select.Group>
             </Select.Content>
           </Select.Root>
         </div>
 
         {mode === "resize" ? (
-          <div> {/* Tetap div tanpa h-[100px] yang kaku */}
+          <div>
             <label
               htmlFor="widthResizeInput"
               className="block text-sm font-semibold text-gray-700 mb-2"
@@ -113,7 +112,7 @@ const ConfigurationBox = ({ handleConfiguration }: GlobalConfigurationProps) => 
                 }
               }}
             >
-              <Select.Trigger className="w-full mb-3" />
+              <Select.Trigger id="targetSizePreset" className="w-full mb-3" />
               <Select.Content>
                 <Select.Item value="100">100 KB</Select.Item>
                 <Select.Item value="200">200 KB</Select.Item>
@@ -147,7 +146,7 @@ const ConfigurationBox = ({ handleConfiguration }: GlobalConfigurationProps) => 
             value={format}
             onValueChange={(value: "jpeg" | "png") => setFormat(value)}
           >
-            <Select.Trigger className="w-full" />
+            <Select.Trigger id="compressionFormat" className="w-full" />
             <Select.Content>
               <Select.Item value="jpeg">JPEG</Select.Item>
               <Select.Item value="png">PNG</Select.Item>
@@ -164,6 +163,7 @@ const ConfigurationBox = ({ handleConfiguration }: GlobalConfigurationProps) => 
             Quality: <span className="font-normal">{quality}%</span>
           </label>
           <Slider
+            id="globalQuality"
             value={[quality]}
             onValueChange={([val]) => setQuality(val)}
             min={1}
@@ -174,7 +174,7 @@ const ConfigurationBox = ({ handleConfiguration }: GlobalConfigurationProps) => 
         )}
 
       </div>
-    </div>
+    </div >
   );
 };
 

@@ -1,14 +1,14 @@
 import React from 'react';
-import { Dialog, Flex, Text, Button } from '@radix-ui/themes';
+import { Dialog, Flex, Button } from '@radix-ui/themes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconDefinition, faCheckCircle, faExclamationTriangle, faTimesCircle, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { IconDefinition, faCheckCircle, faExclamationTriangle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 interface StatusDialogProps {
   isOpen: boolean;
   onClose: () => void;
   type: 'success' | 'error';
   header: string;
-  text: string;
+  text: string | null;
 }
 
 const StatusDialog: React.FC<StatusDialogProps> = ({ isOpen, onClose, type, header, text }) => {
@@ -31,7 +31,7 @@ const StatusDialog: React.FC<StatusDialogProps> = ({ isOpen, onClose, type, head
   }
 
   return (
-    <Dialog.Root open={isOpen} onOpenChange={onClose}>
+    <Dialog.Root open={isOpen}>
       <Dialog.Content style={{ maxWidth: 450 }}>
         <Flex direction="column" align="center" gap="4">
           <FontAwesomeIcon icon={icon} size="4x" className={iconColorClass} />
@@ -49,11 +49,6 @@ const StatusDialog: React.FC<StatusDialogProps> = ({ isOpen, onClose, type, head
             </Dialog.Close>
           </Flex>
         </Flex>
-        <Dialog.Close className="absolute top-4 right-4">
-          <Button variant="ghost" color="gray" size="2">
-            <FontAwesomeIcon icon={faTimes} />
-          </Button>
-        </Dialog.Close>
       </Dialog.Content>
     </Dialog.Root>
   );

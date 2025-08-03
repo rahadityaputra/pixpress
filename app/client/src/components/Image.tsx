@@ -1,4 +1,3 @@
-import React from "react";
 import ImageFIle from "../types/ImageFile";
 
 type ImageProps = {
@@ -14,8 +13,6 @@ const Image = ({ imageFile, onRemoveImage }: ImageProps) => {
     <div
       className="flex p-3 justify-between rounded-md shadow-2xl cursor-pointer"
       style={{
-        width: "150px",
-        height: "150px",
         backgroundImage: `url(${imageFile.imageUrl})`,
         backgroundSize: "cover",
         backgroundPosition: "center",

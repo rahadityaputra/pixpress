@@ -20,7 +20,7 @@ interface CompressedImageData {
 
 const useCompress = () => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const [zipDownloadUrl, setZipDownloadUrl] = useState<string | null>(null);
   const [compressedImageItems, setCompressedImageItems] = useState<CompressedImageItem[]>([]);
 
@@ -55,7 +55,6 @@ const useCompress = () => {
       }
 
       const result = await response.json();
-      console.log(result);
 
       setZipDownloadUrl(result.urlZipDownload);
 
@@ -65,11 +64,15 @@ const useCompress = () => {
       setCompressedImageItems(x)
       console.log("Hasil kompresi dari server:", result);
     } catch (error: any) {
-      setError(error)
+      setError(error.message)
     } finally {
       setLoading(false)
     }
 
+  }
+
+  const clearError = () => {
+    setError(null)
   }
 
 
@@ -105,7 +108,7 @@ const useCompress = () => {
     }
   }
 
-  return { compressImages, loading, error, compressedImageItems, downloadCompressedImageFiles };
+  return { compressImages, loading, error, clearError, compressedImageItems, downloadCompressedImageFiles };
 }
 
 export default useCompress;
