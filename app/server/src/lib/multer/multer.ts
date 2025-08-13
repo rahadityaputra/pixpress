@@ -2,10 +2,9 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 import { Request } from "express"
-import { COMPRESSED_DIR } from "../../controllers/constants";
+import { COMPRESSED_DIR, UPLOAD_DIR } from "../../constants";
 
 
-const UPLOAD_DIR = path.join(__dirname, "uploads_temp");
 
 const storage = multer.diskStorage({
   destination: function(_, __, cb) {
@@ -23,7 +22,7 @@ const storage = multer.diskStorage({
 const fileFilter = (_: Request, file: any, cb: any) => {
   const allowedTypes = ["image/jpeg", "image/png"];
   if (allowedTypes.includes(file.mimetype)) {
-    cb(null, true); // Terima file
+    cb(null, true);
   } else {
     cb(new Error("Hanya file JPEG dan PNG yang diizinkan!"), false); // Tolak file
   }

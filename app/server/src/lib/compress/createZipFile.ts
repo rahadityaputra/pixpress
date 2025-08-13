@@ -1,7 +1,7 @@
 import fs from "fs"
 import archiver from "archiver"
 import path from "path"
-import { COMPRESSED_DIR } from "../../controllers/constants";
+import { COMPRESSED_DIR } from "../../constants";
 
 const createZipFile = (processedImageUrls: string[], outputZipPath: string) => {
   return new Promise((resolve, reject) => {
@@ -29,9 +29,9 @@ const createZipFile = (processedImageUrls: string[], outputZipPath: string) => {
     archive.pipe(output);
 
     for (const url of processedImageUrls) {
-      const fileName = path.basename(url); // Dapatkan nama file dari URL
-      const filePath = path.join(COMPRESSED_DIR, fileName); // Path lokal di server
-      if (fs.existsSync(filePath)) { // Pastikan file ada
+      const fileName = path.basename(url);
+      const filePath = path.join(COMPRESSED_DIR, fileName);
+      if (fs.existsSync(filePath)) {
         archive.file(filePath, { name: fileName });
       } else {
         console.warn(`File ${filePath} tidak ditemukan untuk dimasukkan ke ZIP.`);

@@ -4,18 +4,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faImage } from '@fortawesome/free-solid-svg-icons';
 
 interface CompressedImageItem {
-  id: number; // Unique ID for each image, useful for React keys
-  originalFileName: string; // Original file name
-  beforeUrl: string; // URL of the image before compression (Data URL / Object URL)
-  afterUrl: string; // URL of the image after compression (from server)
-  originalSize: number; // Original size in bytes
-  compressedSize: number; // Compressed size in bytes
+  id: number;
+  originalFileName: string;
+  beforeUrl: string;
+  afterUrl: string;
+  originalSize: number;
+  compressedSize: number;
 }
 
 interface CompressionResultsProps {
   loading: boolean,
-  results: CompressedImageItem[];
-  onDownloadZip: () => void; // Callback to download the ZIP
+  results: CompressedImageItem[],
+  onDownloadZip: () => void
 }
 
 const CompressionResultBox: React.FC<CompressionResultsProps> = ({ loading, results, onDownloadZip }) => {
@@ -72,7 +72,7 @@ const CompressionResultBox: React.FC<CompressionResultsProps> = ({ loading, resu
               </Text>
 
               <div className='h-[250px]'>
-                <div className="flex-grow overflow-scroll p-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 h-full">
+                <div className="flex-grow overflow-scroll p-2 grid grid-cols-1 gap-6 h-full">
                   {results.map((result, index) => (
                     <Flex
                       key={result.id || index}
@@ -84,26 +84,30 @@ const CompressionResultBox: React.FC<CompressionResultsProps> = ({ loading, resu
                       <Text size="2" weight="bold" className="truncate w-full text-center" title={result.originalFileName}>
                         {result.originalFileName}
                       </Text>
-                      <Flex direction="column" gap="2" width="100%">
-                        <Text size="1" color="gray" align="center">Before Compression</Text>
-                        <div className="relative w-full aspect-video bg-gray-200 flex items-center justify-center overflow-hidden rounded-md border border-gray-300">
-                          {result.beforeUrl ? (
-                            <img src={result.beforeUrl} alt={`Original ${result.originalFileName}`} className="object-contain w-full h-full" />
-                          ) : (
-                            <FontAwesomeIcon icon={faImage} size="2x" className="text-gray-400" />
-                          )}
-                        </div>
-                        <Text size="2" weight="medium" align="center">{formatBytes(result.originalSize)}</Text>
+                      <Flex direction="row" gap="2" width="100%">
+                        <Flex direction="column" gap="2" width="100%">
+                          <Text size="1" color="gray" align="center">Before Compression</Text>
+                          <div className="relative w-full aspect-video bg-gray-200 flex items-center justify-center overflow-hidden rounded-md border border-gray-300">
+                            {result.beforeUrl ? (
+                              <img src={result.beforeUrl} alt={`Original ${result.originalFileName}`} className="object-contain w-full h-full" />
+                            ) : (
+                              <FontAwesomeIcon icon={faImage} size="2x" className="text-gray-400" />
+                            )}
+                          </div>
+                          <Text size="2" weight="medium" align="center">{formatBytes(result.originalSize)}</Text>
+                        </Flex>
 
-                        <Text size="1" color="gray" align="center" mt="3">After Compression</Text>
-                        <div className="relative w-full aspect-video bg-gray-200 flex items-center justify-center overflow-hidden rounded-md border border-gray-300">
-                          {result.afterUrl ? (
-                            <img src={'http://localhost:3000/api/' + result.afterUrl} alt={`Compressed ${result.originalFileName}`} className="object-contain w-full h-full" />
-                          ) : (
-                            <FontAwesomeIcon icon={faImage} size="2x" className="text-gray-400" />
-                          )}
-                        </div>
-                        <Text size="2" weight="bold" color="blue" align="center">{formatBytes(result.compressedSize)}</Text>
+                        <Flex direction="column" gap="2" width="100%">
+                          <Text size="1" color="gray" align="center">After Compression</Text>
+                          <div className="relative w-full aspect-video bg-gray-200 flex items-center justify-center overflow-hidden rounded-md border border-gray-300">
+                            {result.afterUrl ? (
+                              <img src={'http://localhost:3000/api/' + result.afterUrl} alt={`Compressed ${result.originalFileName}`} className="object-contain w-full h-full" />
+                            ) : (
+                              <FontAwesomeIcon icon={faImage} size="2x" className="text-gray-400" />
+                            )}
+                          </div>
+                          <Text size="2" weight="bold" color="blue" align="center">{formatBytes(result.compressedSize)}</Text>
+                        </Flex>
                       </Flex>
 
                       <Box className="w-full mt-2 p-1 rounded-md" style={{ backgroundColor: 'rgba(76, 175, 80, 0.1)' }}>

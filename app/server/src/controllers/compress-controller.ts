@@ -1,43 +1,18 @@
 import { Request, Response } from "express"
 import fs from "fs"
-import { COMPRESSED_DIR, MAX_TOTAL_UPLOAD_SIZE_BYTES } from "./constants";
-import configValidation from "../validations/configValidation";
+import { COMPRESSED_DIR } from "../constants";
 import createZipFile from "../lib/compress/createZipFile";
-import processCompressionBatch from "./processCompressionBatch";
-import MulterFile from "../types/MulterFile";
+import processCompressionBatch from "../lib/processCompressionBatch";
 import path from "path";
+import getPayload from "../lib/getPayload";
+import { AppError } from "../lib/error"
 
 const compressImages = async (req: Request, res: Response) => {
-  if (!req.files) {
-    throw new Error("Upload File not found")
-
-  }
-
-  const uploadedFiles: MulterFile[] = req.files["images"];
-
-
-  const configString = req.body.config;
-  if (!uploadedFiles || uploadedFiles.length === 0) {
-    return res.status(400).json({ success: false, message: 'Tidak ada file gambar yang diunggah.' });
-  }
-
-  let config: any;
-
-  config = JSON.parse(configString);
+  const { imageFiles, config } = getPayload(req);
   let urlFilePaths: string[] = [];
 
   try {
-    await configValidation(config);
-
-    const totalUploadedSize = uploadedFiles.reduce((sum, file) => sum + file.size, 0);
-
-    if (totalUploadedSize > MAX_TOTAL_UPLOAD_SIZE_BYTES) {
-      uploadedFiles.forEach((file: any) => fs.unlink(file.path, (err) => { if (err) console.error(err); }));
-      return res.status(413).json({ success: false, message: `Total ukuran gambar melebihi batas ${MAX_TOTAL_UPLOAD_SIZE_BYTES / (1024 * 1024)} MB.` });
-    }
-
-    const results = await processCompressionBatch(uploadedFiles, config);
-
+    const results = await processCompressionBatch(imageFiles, config);
     urlFilePaths = results.map(file => {
       return file.url;
     })
@@ -52,11 +27,15 @@ const compressImages = async (req: Request, res: Response) => {
     });
 
   } catch (error: any) {
-    console.log(error);
+
     urlFilePaths.forEach(url => {
       const filePath = path.join(COMPRESSED_DIR, path.basename(url));
       fs.unlink(filePath, (err) => { if (err) console.error(err); });
     });
+
+    if (error instanceof AppError) {
+      res.status(error.status).json({ success: false, message: error.message });
+    }
     res.status(500).json({ success: false, message: error.message || 'Gagal mengompresi beberapa gambar.' });
   }
 }

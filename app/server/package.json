@@ -1,5 +1,5 @@
 {
-  "name": "wkwk-compress-server",
+  "name": "pixpress-server",
   "version": "1.0.0",
   "description": "Server for image compressor",
   "main": "index.js",
@@ -14,8 +14,8 @@
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "multer": "^1.4.5-lts.2",
-    "sharp": "^0.33.5",
-    "unzipper": "^0.12.3"
+    "node-cron": "^4.2.1",
+    "sharp": "^0.33.5"
   },
   "devDependencies": {
     "@types/archiver": "^6.0.3",
