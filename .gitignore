@@ -1,3 +1,3 @@
-*./node_modules/
-*/uploads_temp/
-*/compress_temp/
+node_modules/
+uploads_temp/
+compress_temp/
